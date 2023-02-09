@@ -1,5 +1,6 @@
 package com.example.mha3
 
+import android.annotation.SuppressLint
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,16 +8,19 @@ import android.widget.TextView
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import com.example.mha3.GameView
+import android.view.View
 
 class GameActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager : SensorManager
-    private lateinit var textView : TextView
+    private lateinit var gameView : GameView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        textView = findViewById(R.id.textView)
+        gameView = findViewById(R.id.gameView)
         setupSensor()
     }
 
@@ -38,7 +42,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             val horizontal = event.values[1]
             // up(10), down (-10)
             val vertical = event.values[0]
-            textView.text = "up/down ${horizontal.toInt()}\nleft/right ${vertical.toInt()}"
+            //textView.text = "up/down ${horizontal.toInt()}\nleft/right ${vertical.toInt()}"
+            gameView.invalidate()
         }
     }
 
