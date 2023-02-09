@@ -15,12 +15,14 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager : SensorManager
     private lateinit var gameView : GameView
+    private lateinit var textView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         gameView = findViewById(R.id.gameView)
+        textView = findViewById(R.id.textView)
         setupSensor()
     }
 
@@ -39,9 +41,11 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             //left(10) right (-10)
-            val horizontal = event.values[1]
+            val horizontal = event.values[0]
             // up(10), down (-10)
-            val vertical = event.values[0]
+            val vertical = event.values[1]
+            //textView.text = "up/down ${horizontal.toInt()}\nleft/right ${vertical.toInt()}"
+            gameView.setHedgeHogSpeed(-1*horizontal, vertical)
             gameView.invalidate()
         }
     }

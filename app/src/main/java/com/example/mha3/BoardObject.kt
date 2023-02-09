@@ -1,10 +1,13 @@
 package com.example.mha3
 
 import android.graphics.Rect
+import android.util.Log
+
+
 
 class BoardObject(maxX: Int, maxY: Int, factorSize: Float) {
 
-    private var BASESPEED = 1
+    private var BASESPEED = 5
     private var left = 0
     private var top = 0
     private var size = 0
@@ -20,7 +23,6 @@ class BoardObject(maxX: Int, maxY: Int, factorSize: Float) {
         this.size = (factorSize*maxX).toInt()
         left = 0
         top = 0
-
     }
 
     fun randomPosition() {
@@ -28,11 +30,21 @@ class BoardObject(maxX: Int, maxY: Int, factorSize: Float) {
         top = (0..(maxY-size)).random()
     }
 
-    private fun checkCollision(x : Int, y: Int): Boolean {
-        if (x + left > maxX) {
+    private fun checkXCollision(x : Int): Boolean {
+        if (x < 0) {
             return true
         }
-        if (y + top > maxY) {
+        if (x + size > maxX) {
+            return true
+        }
+        return false
+    }
+
+    private fun checkYCollision(y: Int) : Boolean {
+        if (y < 0) {
+            return true
+        }
+        if (y + size > maxY) {
             return true
         }
         return false
@@ -41,20 +53,30 @@ class BoardObject(maxX: Int, maxY: Int, factorSize: Float) {
     fun move() {
         var newX = left + speedX
         var newY = top + speedY
-        if(checkCollision(newX, newY)) {
-            return
+        var yCollision = checkYCollision(newY)
+        if (checkXCollision(newX)) {
+            if (yCollision) {
+                return
+            }
+            top = newY
+        } else {
+            if (yCollision) {
+                left = newX
+            } else {
+                left = newX
+                top = newY
+            }
         }
-        left = newX
-        top = newY
+
     }
 
-    fun setSpeedDirection(x: Int, y: Int) {
-        speedX = BASESPEED*x
-        speedY = BASESPEED*y
+    fun setSpeed(x: Float, y: Float) {
+        speedX = BASESPEED*x.toInt()
+        speedY = BASESPEED*y.toInt()
     }
 
     fun getPosition() : Rect {
-        return Rect(left, top, size, size)
+        return Rect(left, top, left + size, top + size)
     }
 
 }

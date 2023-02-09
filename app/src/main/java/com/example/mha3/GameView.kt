@@ -29,8 +29,12 @@ class GameView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
+        hedgehog.move()
         canvas.drawBitmap(hBit, null, hedgehog.getPosition(), null)
+    }
+
+    fun setHedgeHogSpeed(x: Float, y: Float) {
+        hedgehog.setSpeed(x, y)
     }
 
 }
