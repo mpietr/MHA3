@@ -42,7 +42,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             val horizontal = event.values[1]
             // up(10), down (-10)
             val vertical = event.values[0]
-            //textView.text = "up/down ${horizontal.toInt()}\nleft/right ${vertical.toInt()}"
             gameView.invalidate()
         }
     }
