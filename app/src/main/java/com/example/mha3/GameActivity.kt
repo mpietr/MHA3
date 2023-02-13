@@ -1,5 +1,6 @@
 package com.example.mha3
 
+import android.content.Intent
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -47,6 +48,15 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             if(gameView.checkScoreAndChangePosition()){
                 points++
                 setTitle("Points: $points")
+                if (points%3 == 0) {
+                    gameView.addStone()
+                }
+            }
+            if (gameView.checkEnd()) {
+                points = 0
+                var intent = Intent()
+                setResult(1001, intent)
+                finish()
             }
             gameView.invalidate()
         }
